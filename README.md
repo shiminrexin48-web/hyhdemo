@@ -10,7 +10,7 @@
 方式二：起一个本地 HTTP 服务器（推荐）:
 
 ```bash
-cd dev-blog
+cd hyhdemo
 python3 -m http.server 8000
 ```
 
@@ -19,19 +19,32 @@ python3 -m http.server 8000
 ## 目录结构
 
 ```
-dev-blog/
+hyhdemo/
 ├── index.html              # 首页：文章列表 + 搜索
 ├── about.html              # 关于页
+├── issues.md               # 代码评审报告
 ├── posts/                  # 文章页
+│   ├── sorting-algorithms.html  # 三种排序算法详解 + 在线演示
 │   ├── html5-semantic.html
 │   ├── css-flexbox-guide.html
 │   └── js-event-loop.html
 ├── css/
 │   └── style.css           # 全部样式（含明暗两套主题）
 ├── js/
-│   └── main.js             # 主题切换 / 搜索 / 返回顶部 / 阅读时长
+│   ├── main.js             # 主题切换 / 搜索 / 返回顶部 / 阅读时长
+│   └── sorting.js          # 排序算法实现与演示逻辑
+├── test/
+│   └── sorting.test.js     # 排序算法回归测试（node test/sorting.test.js）
 └── README.md
 ```
+
+### 运行排序算法测试
+
+```bash
+node test/sorting.test.js
+```
+
+覆盖固定用例、200 轮随机数据对照原生 `sort`、以及 1 万个有序/逆序/全相等元素的退化输入守卫。
 
 ## 已实现的功能
 

@@ -6,21 +6,36 @@
    - 所有排序函数均为原地排序（in-place），会修改传入的数组，
      如需保留原数据请先拷贝，如 arr.slice()
    - 默认按升序排列
+   - Node 环境可通过 module.exports 引入（见文件末尾）与 test/sorting.test.js
    ========================================================================== */
+
+/** 交换数组中两个位置的元素（临时变量交换，避免解构赋值产生临时数组） */
+function swap(arr, i, j) {
+  const tmp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = tmp;
+}
 
 /**
  * 冒泡排序
  * 相邻元素两两比较，逆序则交换；每一轮将当前最大值"冒泡"到数组末尾。
- * 时间复杂度：O(n²)；空间复杂度：O(1)
+ * 若某一轮没有发生任何交换，说明数组已经有序，直接提前退出。
+ * 时间复杂度：平均/最坏 O(n²)，最好 O(n)（已有序提前退出）；空间复杂度：O(1)
  */
 function bubbleSort(arr) {
   const n = arr.length;
   for (let i = 0; i < n - 1; i++) {
+    let swapped = false;
     for (let j = 0; j < n - 1 - i; j++) {
       if (arr[j] > arr[j + 1]) {
-        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+        // 热路径就地交换（临时变量，不分配临时数组、无函数调用开销）
+        const tmp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = tmp;
+        swapped = true;
       }
     }
+    if (!swapped) break;          // 本轮无交换 => 数组已有序
   }
   return arr;
 }
@@ -45,26 +60,45 @@ function insertionSort(arr) {
 }
 
 /**
- * 快速排序（Lomuto 分区，递归实现）
- * 每轮选取区间末尾的元素作为枢轴（pivot），把小于枢轴的元素移到左侧，
- * 然后递归处理左右两侧。
- * 时间复杂度：平均 O(n log n)，最坏 O(n²)；空间复杂度：递归栈 O(log n)
+ * 快速排序（三数取中枢轴 + 三路分区，递归实现）
+ * - 枢轴：取区间左 / 中 / 右三个候选值的中位数，避免有序输入下
+ *   枢轴总选到极值导致最坏 O(n²) 和 O(n) 深递归（栈溢出风险）
+ * - 分区：三路分区（荷兰国旗），小于枢轴的移到左侧、等于的留在中间、
+ *   大于的移到右侧；重复元素一次性归位，递归深度保持 O(log n)
+ * 时间复杂度：平均 O(n log n)，最坏 O(n²)（概率极低）；空间复杂度：递归栈 O(log n)
  */
 function quickSort(arr, left = 0, right = arr.length - 1) {
   if (left >= right) return arr;
 
-  const pivot = arr[right];
+  // 三数取中：把左/中/右三个候选值的中位数换到区间首位作枢轴
+  const mid = left + ((right - left) >> 1);
+  const a = arr[left];
+  const b = arr[mid];
+  const c = arr[right];
+  const median = a + b + c - Math.min(a, b, c) - Math.max(a, b, c);
+  const pivotIndex = a === median ? left : b === median ? mid : right;
+  swap(arr, left, pivotIndex);
+  const pivot = arr[left];
+
+  // 三路分区：arr[left..lt) < pivot，arr[lt..i) == pivot，arr[i..gt] 未知，arr(gt..right] > pivot
+  let lt = left;
   let i = left;
-  for (let j = left; j < right; j++) {
-    if (arr[j] < pivot) {
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+  let gt = right;
+  while (i <= gt) {
+    if (arr[i] < pivot) {
+      swap(arr, lt, i);
+      lt++;
+      i++;
+    } else if (arr[i] > pivot) {
+      swap(arr, i, gt);
+      gt--;
+    } else {
       i++;
     }
   }
-  [arr[i], arr[right]] = [arr[right], arr[i]];
 
-  quickSort(arr, left, i - 1);
-  quickSort(arr, i + 1, right);
+  quickSort(arr, left, lt - 1);
+  quickSort(arr, gt + 1, right);
   return arr;
 }
 
@@ -139,4 +173,9 @@ function initSortDemo() {
 
 if (typeof document !== 'undefined') {
   initSortDemo();
+}
+
+/* Node 环境导出，供 test/sorting.test.js 回归测试使用（浏览器环境忽略） */
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { bubbleSort, insertionSort, quickSort, generateArray, isSorted };
 }
