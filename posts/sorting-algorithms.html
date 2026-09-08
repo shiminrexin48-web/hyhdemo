@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="三种经典排序算法详解：冒泡排序、插入排序、快速排序，附在线演示">
+  <title>三种经典排序算法（冒泡 / 插入 / 快速） · DevNotes</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <header class="site-header">
+    <nav class="nav container">
+      <a class="logo" href="../index.html">Dev<span>Notes</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html" class="active">首页</a></li>
+        <li><a href="../about.html">关于</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗主题">🌙</button>
+    </nav>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="container">
+    <article class="post-content" id="postContent">
+      <header class="article-header">
+        <h1>三种经典排序算法（冒泡 / 插入 / 快速）</h1>
+        <div class="post-meta">
+          <time datetime="2026-09-08">2026-09-08</time>
+          <span>阅读约 <span id="readTime">—</span> 分钟</span>
+          <span class="post-tags"><a href="../index.html">JavaScript</a><a href="../index.html">算法</a></span>
+        </div>
+      </header>
+
+      <p>排序算法是算法学习的入门第一课。这篇文章用原生 JavaScript 实现了三种经典排序算法：<strong>冒泡排序、插入排序、快速排序</strong>，手写源码 + 复杂度分析，文末还提供了一个在线演示：生成随机数组，同时运行三种算法并对比耗时。</p>
+
+      <h2>复杂度速览</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>算法</th>
+            <th>平均时间复杂度</th>
+            <th>最好情况</th>
+            <th>最坏情况</th>
+            <th>空间复杂度</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>冒泡排序</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td></tr>
+          <tr><td>插入排序</td><td>O(n²)</td><td>O(n)</td><td>O(n²)</td><td>O(1)</td></tr>
+          <tr><td>快速排序</td><td>O(n log n)</td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td></tr>
+        </tbody>
+      </table>
+
+      <h2>冒泡排序 Bubble Sort</h2>
+      <p>基本思想：相邻元素两两比较，逆序就交换。每一轮结束后，当前区间最大值会"冒泡"到最右边，下一轮就不用再碰它了。</p>
+      <pre><code>function bubbleSort(arr) {
+  const n = arr.length;
+  for (let i = 0; i &lt; n - 1; i++) {
+    for (let j = 0; j &lt; n - 1 - i; j++) {
+      if (arr[j] &gt; arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+      }
+    }
+  }
+  return arr;
+}</code></pre>
+      <ul>
+        <li>优点：实现最简单，代码最容易读懂</li>
+        <li>缺点：交换次数多，性能最差，只适合教学演示</li>
+        <li>特点：稳定排序（相等元素相对顺序不变）</li>
+      </ul>
+
+      <h2>插入排序 Insertion Sort</h2>
+      <p>基本思想：从第二个元素开始，把当前元素插入到左侧"已排序区间"的正确位置，就像打扑克牌时整理手中的牌。</p>
+      <pre><code>function insertionSort(arr) {
+  const n = arr.length;
+  for (let i = 1; i &lt; n; i++) {
+    const current = arr[i];
+    let j = i - 1;
+    while (j &gt;= 0 &amp;&amp; arr[j] &gt; current) {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = current;
+  }
+  return arr;
+}</code></pre>
+      <ul>
+        <li>优点：对<strong>基本有序</strong>的数据特别快（最好 O(n)），实现简单、稳定</li>
+        <li>缺点：逆序数据依然是 O(n²)</li>
+        <li>应用：引擎里常把它用作小区间排序的兜底（比如 Timsort）</li>
+      </ul>
+
+      <h2>快速排序 Quick Sort</h2>
+      <p>基本思想：选取一个枢轴（pivot），把数组分成"小于枢轴"和"大于枢轴"两半，再递归处理。这里用的是 Lomuto 分区 + 区间末尾元素作枢轴。</p>
+      <pre><code>function quickSort(arr, left = 0, right = arr.length - 1) {
+  if (left &gt;= right) return arr;
+
+  const pivot = arr[right];
+  let i = left;
+  for (let j = left; j &lt; right; j++) {
+    if (arr[j] &lt; pivot) {
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+      i++;
+    }
+  }
+  [arr[i], arr[right]] = [arr[right], arr[i]];
+
+  quickSort(arr, left, i - 1);
+  quickSort(arr, i + 1, right);
+  return arr;
+}</code></pre>
+      <ul>
+        <li>优点：平均性能最好的通用排序之一，O(n log n)</li>
+        <li>缺点：<strong>最坏 O(n²)</strong>，递归深度最坏 O(n)（对已排序数组），不稳定的</li>
+      </ul>
+
+      <h2>在线演示</h2>
+      <section class="sort-demo" id="sortDemo">
+        <div class="demo-controls">
+          <label>数组长度
+            <input type="number" id="demoSize" value="10" min="1" max="200">
+          </label>
+          <button id="runSort" class="demo-btn">生成并排序</button>
+        </div>
+        <p class="demo-result" id="demoResult"></p>
+        <table id="demoTable" hidden>
+          <thead>
+            <tr><th>算法</th><th>耗时</th><th>排序结果校验</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <h2>小结</h2>
+      <p>三种算法各有战场：<strong>数据量小、基本有序</strong>用插入排序最快；<strong>通用场景</strong>首选快速排序；冒泡排序则基本只存在于教科书和面试题里。上面的演示可以直接运行对比三者耗时，多试几组不同规模的数据吧。</p>
+    </article>
+
+    <a class="back-home" href="../index.html">← 返回首页</a>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 DevNotes · 由纯 HTML5 + CSS3 + JavaScript 构建</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
+  <script src="../js/main.js"></script>
+  <script src="../js/sorting.js"></script>
+</body>
+</html>

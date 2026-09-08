@@ -443,6 +443,62 @@ blockquote {
   transform: translateY(-3px);
 }
 
+/* ---------- 排序演示面板 ---------- */
+.sort-demo {
+  margin-top: 1rem;
+}
+
+.demo-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.demo-controls label {
+  font-size: .92rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.demo-controls input {
+  width: 80px;
+  padding: .45rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: .92rem;
+  outline: none;
+}
+
+.demo-controls input:focus {
+  border-color: var(--primary);
+}
+
+.demo-btn {
+  padding: .5rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-size: .95rem;
+  cursor: pointer;
+  transition: background-color .2s;
+}
+
+.demo-btn:hover {
+  background: var(--primary-hover);
+}
+
+.demo-result {
+  color: var(--text-secondary);
+  font-size: .92rem;
+}
+
 /* ---------- 响应式 ---------- */
 @media (max-width: 640px) {
   .hero {
