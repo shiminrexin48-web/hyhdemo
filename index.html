@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DevNotes - 记录技术、分享思考的个人技术博客">
+  <title>DevNotes · 个人技术博客</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <header class="site-header">
+    <nav class="nav container">
+      <a class="logo" href="index.html">Dev<span>Notes</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">首页</a></li>
+        <li><a href="about.html">关于</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗主题">🌙</button>
+    </nav>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="container">
+    <!-- 页首横幅 -->
+    <section class="hero">
+      <h1>记录技术，分享思考</h1>
+      <p>一名前端开发者的学习笔记与踩坑记录</p>
+      <input type="search" class="search-input" id="searchInput" placeholder="🔍 搜索文章标题或标签...">
+    </section>
+
+    <!-- 文章列表（配合 JS 实时过滤） -->
+    <section class="post-list" id="postList">
+      <article class="post-card" data-tags="html,前端,语义化">
+        <div class="post-meta">
+          <time datetime="2026-09-05">2026-09-05</time>
+          <span class="post-tags"><a href="#">HTML</a><a href="#">前端基础</a></span>
+        </div>
+        <h2><a href="posts/html5-semantic.html">HTML5 语义化标签实战指南</a></h2>
+        <p>语义化是 HTML5 的核心思想：用正确的标签表达内容的含义。本文结合博客页面实例，讲解 header、nav、main、article、aside、footer 的正确用法与常见误区。</p>
+        <a class="read-more" href="posts/html5-semantic.html">阅读全文 →</a>
+      </article>
+
+      <article class="post-card" data-tags="css,布局,flexbox">
+        <div class="post-meta">
+          <time datetime="2026-08-20">2026-08-20</time>
+          <span class="post-tags"><a href="#">CSS</a><a href="#">布局</a></span>
+        </div>
+        <h2><a href="posts/css-flexbox-guide.html">CSS Flexbox 布局完全指南</a></h2>
+        <p>Flexbox 是当代网页布局的基石。从轴线的概念讲起，用 5 个经典场景（居中、导航栏、卡片网格、侧边栏、粘性页脚）带你掌握 Flexbox 的核心用法。</p>
+        <a class="read-more" href="posts/css-flexbox-guide.html">阅读全文 →</a>
+      </article>
+
+      <article class="post-card" data-tags="javascript,事件循环,异步">
+        <div class="post-meta">
+          <time datetime="2026-07-30">2026-07-30</time>
+          <span class="post-tags"><a href="#">JavaScript</a><a href="#">异步</a></span>
+        </div>
+        <h2><a href="posts/js-event-loop.html">JavaScript 事件循环机制详解</a></h2>
+        <p>为什么 setTimeout(fn, 0) 不一定是立即执行？微任务和宏任务到底谁先谁后？一行代码还原事件循环的完整调度流程，看完再也不怕面试官问这道题。</p>
+        <a class="read-more" href="posts/js-event-loop.html">阅读全文 →</a>
+      </article>
+    </section>
+
+    <p class="search-empty" id="searchEmpty" hidden>没有找到匹配的文章 🙈</p>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 DevNotes · 由纯 HTML5 + CSS3 + JavaScript 构建</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
+  <script src="js/main.js"></script>
+</body>
+</html>

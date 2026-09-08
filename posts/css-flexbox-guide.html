@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CSS Flexbox 布局完全指南：从轴线概念到 5 个经典实战场景">
+  <title>CSS Flexbox 布局完全指南 · DevNotes</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <header class="site-header">
+    <nav class="nav container">
+      <a class="logo" href="../index.html">Dev<span>Notes</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html" class="active">首页</a></li>
+        <li><a href="../about.html">关于</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗主题">🌙</button>
+    </nav>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="container">
+    <article class="post-content" id="postContent">
+      <header class="article-header">
+        <h1>CSS Flexbox 布局完全指南</h1>
+        <div class="post-meta">
+          <time datetime="2026-08-20">2026-08-20</time>
+          <span>阅读约 <span id="readTime">—</span> 分钟</span>
+          <span class="post-tags"><a href="../index.html">CSS</a><a href="../index.html">布局</a></span>
+        </div>
+      </header>
+
+      <p>Flexbox（弹性盒子）是 CSS3 引入的布局模型，专为一维布局而生：它让「一行里放几个元素、怎么对齐、怎么分配空间」这件事变得极其简单。</p>
+
+      <h2>第一步：理解两根轴线</h2>
+      <p>Flex 布局的核心是轴线（axis）。容器有一个 <strong>主轴</strong>（main axis，由 <code>flex-direction</code> 决定，默认水平）和一个 <strong>交叉轴</strong>（cross axis，与主轴垂直）。所有属性都在围绕这两根轴工作：</p>
+      <ul>
+        <li><code>justify-content</code> —— 控制 <strong>主轴</strong> 上的排列与剩余空间分配</li>
+        <li><code>align-items</code> —— 控制 <strong>交叉轴</strong> 上的对齐</li>
+        <li><code>gap</code> —— 控制子元素之间的间距（比 margin 干净得多）</li>
+      </ul>
+
+      <h2>常用属性速查</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>属性</th>
+            <th>说明</th>
+            <th>常用值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>flex-direction</code></td><td>主轴方向</td><td><code>row</code>（默认）/ <code>column</code></td></tr>
+          <tr><td><code>justify-content</code></td><td>主轴对齐</td><td><code>center</code> / <code>space-between</code> / <code>space-around</code></td></tr>
+          <tr><td><code>align-items</code></td><td>交叉轴对齐</td><td><code>center</code> / <code>stretch</code>（默认）/ <code>flex-start</code></td></tr>
+          <tr><td><code>flex-wrap</code></td><td>是否换行</td><td><code>nowrap</code>（默认）/ <code>wrap</code></td></tr>
+          <tr><td><code>flex-grow</code></td><td>按比例瓜分剩余空间</td><td><code>1</code>（均分）</td></tr>
+          <tr><td><code>flex-shrink</code></td><td>空间不足时收缩比例</td><td><code>1</code>（默认）</td></tr>
+          <tr><td><code>flex-basis</code></td><td>分配前的初始尺寸</td><td><code>200px</code> 等</td></tr>
+        </tbody>
+      </table>
+
+      <h2>5 个经典实战场景</h2>
+
+      <h3>① 水平 + 垂直居中（告别 margin 大法）</h3>
+      <pre><code>.box {
+  display: flex;
+  justify-content: center;   /* 主轴居中 */
+  align-items: center;       /* 交叉轴居中 */
+}</code></pre>
+
+      <h3>② 顶部导航（左 Logo 右菜单）</h3>
+      <p>你正在看的这个博客导航就是这么写的：Logo 在左，菜单靠右，中间留白全自动：</p>
+      <pre><code>.nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-links {
+  margin-left: auto;   /* 把菜单推到最右边 */
+  display: flex;
+  gap: .5rem;
+}</code></pre>
+
+      <h3>③ 卡片网格一行放多少张</h3>
+      <pre><code>.post-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.post-card {
+  flex: 1 1 320px;   /* 至少 320px 宽，空间多了自动均分 */
+  min-width: 0;
+}</code></pre>
+      <p>优点：不用媒体查询，窗口变窄时自动换行；正好填满一行时卡片会自动拉伸填满。</p>
+
+      <h3>④ 双栏布局</h3>
+      <pre><code>.layout {
+  display: flex;
+  gap: 1.5rem;
+}
+.main {
+  flex: 3;           /* 主内容占 3 份 */
+}
+.sidebar {
+  flex: 1;           /* 侧边栏占 1 份 */
+}</code></pre>
+
+      <h3>⑤ 粘性页脚（页面太矮时页脚也在底部）</h3>
+      <pre><code>body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main {
+  flex: 1;           /* main 吃掉所有剩余高度 */
+}</code></pre>
+      <p>你现在这个博客的页面就用了这招——内容再少，页脚也会沉在视口底部。</p>
+
+      <h2>注意事项</h2>
+      <blockquote>
+        <p>flex 的 <code>flex: 1 1 320px</code> 是 <code>grow / shrink / basis</code> 的简写，语义是「初始 320px，多了就长，少了就缩」——配合 <code>flex-wrap: wrap</code>，是构建响应式卡片网格的黄金组合。</p>
+      </blockquote>
+
+      <h2>小结</h2>
+      <p>先记住一句话：<strong>主轴方向由 <code>flex-direction</code> 决定，</strong>其他属性围绕它展开。把上面 5 个场景反复写几遍，Flexbox 就是你的肌肉记忆了。</p>
+    </article>
+
+    <a class="back-home" href="../index.html">← 返回首页</a>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 DevNotes · 由纯 HTML5 + CSS3 + JavaScript 构建</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
+  <script src="../js/main.js"></script>
+</body>
+</html>

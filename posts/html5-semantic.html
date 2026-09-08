@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HTML5 语义化标签实战指南：header、nav、main、article、aside、footer 的正确用法与常见误区">
+  <title>HTML5 语义化标签实战指南 · DevNotes</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <header class="site-header">
+    <nav class="nav container">
+      <a class="logo" href="../index.html">Dev<span>Notes</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html" class="active">首页</a></li>
+        <li><a href="../about.html">关于</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗主题">🌙</button>
+    </nav>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="container">
+    <article class="post-content" id="postContent">
+      <header class="article-header">
+        <h1>HTML5 语义化标签实战指南</h1>
+        <div class="post-meta">
+          <time datetime="2026-09-05">2026-09-05</time>
+          <span>阅读约 <span id="readTime">—</span> 分钟</span>
+          <span class="post-tags"><a href="../index.html">HTML</a><a href="../index.html">前端基础</a></span>
+        </div>
+      </header>
+
+      <p>语义化（Semantics）是 HTML5 的核心思想之一：<strong>用合适的标签表达内容本身的含义</strong>，而不是靠一堆无意义的 <code>div</code> 加 class 来凑。</p>
+
+      <h2>为什么需要语义化</h2>
+      <ul>
+        <li><strong>可读性更强</strong>：看源码就能知道页面的结构，维护成本更低。</li>
+        <li><strong>利于 SEO</strong>：搜索引擎更容易理解内容结构与权重。</li>
+        <li><strong>更好的无障碍体验</strong>：屏幕阅读器（读屏软件）依赖语义化标签导航页面。</li>
+        <li><strong>更合理的默认样式</strong>：各浏览器对语义化标签内置了合适的表现。</li>
+      </ul>
+
+      <h2>常用语义化标签一览</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>标签</th>
+            <th>含义</th>
+            <th>典型用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>&lt;header&gt;</code></td><td>页头 / 块级头部</td><td>站点标题、LOGO、导航的容器</td></tr>
+          <tr><td><code>&lt;nav&gt;</code></td><td>导航</td><td>主要链接组，如菜单、面包屑</td></tr>
+          <tr><td><code>&lt;main&gt;</code></td><td>主内容</td><td>页面中唯一的主要内容区域</td></tr>
+          <tr><td><code>&lt;article&gt;</code></td><td>独立内容</td><td>一篇文章、一条评论等可独立分发的块</td></tr>
+          <tr><td><code>&lt;section&gt;</code></td><td>主题分区</td><td>有标题的分组，如「评论区」</td></tr>
+          <tr><td><code>&lt;aside&gt;</code></td><td>附属内容</td><td>侧边栏、广告位、相关推荐</td></tr>
+          <tr><td><code>&lt;footer&gt;</code></td><td>页脚</td><td>版权、备案、站点地图链接</td></tr>
+        </tbody>
+      </table>
+
+      <h2>实战案例：一个典型博客页面结构</h2>
+      <p>下面是你正在看的这个博客的核心骨架：</p>
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;body&gt;
+  &lt;header&gt;                    &lt;!-- 页头：站点名称 + 导航 --&gt;
+    &lt;nav&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="/"&gt;首页&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/about"&gt;关于&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;                      &lt;!-- 主内容区 --&gt;
+    &lt;article&gt;                 &lt;!-- 一篇文章 --&gt;
+      &lt;h1&gt;HTML5 语义化标签实战指南&lt;/h1&gt;
+      &lt;p&gt;正文内容……&lt;/p&gt;
+    &lt;/article&gt;
+
+    &lt;aside&gt;                   &lt;!-- 侧边：相关推荐 --&gt;
+      &lt;h2&gt;推荐阅读&lt;/h2&gt;
+    &lt;/aside&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;                    &lt;!-- 页脚：版权信息 --&gt;
+    &lt;p&gt;© 2026 DevNotes&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <h2>常见误区</h2>
+      <blockquote>
+        <p><strong>误区一：什么都要用 &lt;section&gt;。</strong> 没有自然标题的内容块不需要 section，一个 <code>div</code> 就够。</p>
+        <p><strong>误区二：&lt;h1&gt; 随意使用。</strong> 一个页面通常只有一个 <code>h1</code>，用 <code>h2</code> / <code>h3</code> 表达层级。</p>
+        <p><strong>误区三：&lt;header&gt; 只在页面顶部用。</strong> 每个 <code>article</code> 内部也可以有自己的 header。</p>
+      </blockquote>
+
+      <h2>小结</h2>
+      <p>抽象的原则是：<strong>先语义，后样式。</strong> 写 HTML 时先问自己「这块内容是什么」，再选标签；最后才用 CSS 控制它的外观。这样写出来的页面，既好看，又经得起搜索引擎和读屏软件的检验。</p>
+    </article>
+
+    <a class="back-home" href="../index.html">← 返回首页</a>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 DevNotes · 由纯 HTML5 + CSS3 + JavaScript 构建</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="返回顶部">↑</button>
+  <script src="../js/main.js"></script>
+</body>
+</html>
